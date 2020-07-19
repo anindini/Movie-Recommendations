@@ -42,12 +42,12 @@ df.head()
 
 # In[36]:
 
-
+# splitting words by commas
 df['Genre'] = df['Genre'].map(lambda x: x.split(','))
-df['Actors'] = df['Actors'].map(lambda x: x.split(',')[:3])
+df['Actors'] = df['Actors'].map(lambda x: x.split(',')[:3]) # only considering the first three actors' names
 df['Director'] = df['Director'].map(lambda x: x.split(','))
 
-# create unique identity names by merging first & last name into one word, convert to lowercase 
+# creating unique identity names by merging first & last names into a single word, converting to lowercase 
 for index, row in df.iterrows():
     row['Genre'] = [x.lower().replace(' ','') for x in row['Genre']]
     row['Actors'] = [x.lower().replace(' ','') for x in row['Actors']]
@@ -58,7 +58,7 @@ df.head()
 # In[37]:
 
 
-# to combine 4 lists (4 columns) of key words into 1 sentence under Bag_of_words column
+# combining 4 lists (4 columns) of key words into 1 sentence under the Characteristics column
 df['Characteristics'] = ''
 columns = ['Genre', 'Director', 'Actors', 'Key_words']
 
@@ -68,7 +68,7 @@ for index, row in df.iterrows():
         words += ' '.join(row[col]) + ' '
     row['Characteristics'] = words
     
-# strip white spaces infront and behind, replace multiple whitespaces (if any)
+# striping white spaces infront and behind, replacing multiple whitespaces (if any)
 df['Characteristics'] = df['Characteristics'].str.strip().str.replace('   ', ' ')
 
 df = df[['Title','Characteristics']]
